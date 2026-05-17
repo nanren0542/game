@@ -145,7 +145,7 @@ def main():
         上：旋转
         关闭窗口：退出
     """
-    print("master, Controls: Left/Right to move, Down to fast drop, Up to rotate");
+    print("feature1, Controls: Left/Right to move, Down to fast drop, Up to rotate");
     game = Game()
     run = True
     while run:
