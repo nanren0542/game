@@ -12,3 +12,6 @@ wheels/
 # other files
 *.txt
 .python-version
+
+# vscode settings
+.vscode
