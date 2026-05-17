@@ -145,7 +145,7 @@ def main():
         上：旋转
         关闭窗口：退出
     """
-    print("feature1, Controls: Left/Right to move, Down to fast drop, Up to rotate");
+    print("welcome to play Tetris! Use arrow keys to move and rotate. Enjoy!")
     game = Game()
     run = True
     while run:
