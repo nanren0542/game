@@ -2,6 +2,11 @@ import pygame
 import random
 
 # 初始化
+"""
+    初始化游戏窗口
+    设置窗口大小 300x600
+    每个格子 30x30 → 画面是 10 列 × 20 行
+"""
 pygame.init()
 WIDTH, HEIGHT = 300, 600
 BLOCK_SIZE = 30
@@ -13,9 +18,14 @@ FPS = 60
 # 颜色
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-COLORS = [(0,255,255),(255,0,255),(255,255,0),(0,0,255),(255,165,0),(0,255,0),(255,0,0)]
+COLORS = [(0,255,255),(255,0,255),(255,255,0),(0,0,255),(255,165,0),(0,255,0),(255,0,0)] # 7种方块颜色
 
 # 方块形状
+"""
+    1 代表有格子
+    0 代表空
+    一共 7 种经典俄罗斯方块
+"""
 SHAPES = [
     [[1,1,1,1]],
     [[1,1],[1,1]],
@@ -28,6 +38,9 @@ SHAPES = [
 
 class Piece:
     def __init__(self):
+        """
+            管理一个方块的形状、颜色、位置
+        """
         self.shape = random.choice(SHAPES)
         self.color = random.choice(COLORS)
         self.x = WIDTH//2//BLOCK_SIZE - len(self.shape[0])//2
@@ -35,6 +48,10 @@ class Piece:
 
 class Game:
     def __init__(self):
+        """
+            创建一个 20 行 × 10 列 的网格
+            每个格子存颜色
+        """        
         self.grid_w = WIDTH // BLOCK_SIZE
         self.grid_h = HEIGHT // BLOCK_SIZE
         self.grid = [[BLACK for _ in range(self.grid_w)] for _ in range(self.grid_h)]
@@ -43,10 +60,19 @@ class Game:
         self.fall_speed = 500
 
     def rotate(self):
+        """            
+            矩阵旋转算法(逆时针90度)
+            按上键 → 方块旋转
+        """        
         rotated = list(zip(*self.cur.shape[::-1]))
         self.cur.shape = [list(row) for row in rotated]
 
     def check_collide(self, dx=0, dy=0, shape=None):
+        """ 
+            碰撞检测（最关键） 
+            判断方块是否撞墙、撞底、撞其他方块
+            移动 / 旋转前都会先检查能不能动
+        """
         if shape is None:
             shape = self.cur.shape
         for y, row in enumerate(shape):
@@ -61,6 +87,11 @@ class Game:
         return False
 
     def lock_piece(self):
+        """
+            方块落到地面后，把颜色固定到网格里
+            然后生成新方块
+            如果新方块一出就碰撞 → 游戏结束
+        """
         for y, row in enumerate(self.cur.shape):
             for x, cell in enumerate(row):
                 if cell:
@@ -72,6 +103,10 @@ class Game:
         return True
 
     def clear_line(self):
+        """
+            检查哪一行填满了
+            消掉 → 上面的行掉下来
+        """        
         new_grid = []
         for row in self.grid:
             if not all(c != BLACK for c in row):
@@ -82,6 +117,11 @@ class Game:
         self.grid = new_grid
 
     def draw(self):
+        """画背景
+            画网格里的所有方块
+            画当前下落的方块
+            更新屏幕
+        """
         screen.fill(BLACK)
         # 画网格
         for y in range(self.grid_h):
@@ -99,6 +139,12 @@ class Game:
         pygame.display.update()
 
 def main():
+    """
+        左 / 右：左右移动
+        下：快速下落
+        上：旋转
+        关闭窗口：退出
+    """
     game = Game()
     run = True
     while run:
