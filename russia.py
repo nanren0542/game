@@ -13,7 +13,8 @@ BLOCK_SIZE = 30
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("俄罗斯方块")
 clock = pygame.time.Clock()
-FPS = 60
+# FPS = 60
+FPS = 100
 
 # 颜色
 BLACK = (0, 0, 0)
@@ -157,11 +158,15 @@ def main():
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_LEFT and not game.check_collide(dx=-1):
                     game.cur.x -=1
+                    print("Moved left");
                 if e.key == pygame.K_RIGHT and not game.check_collide(dx=1):
                     game.cur.x +=1
+                    print("Moved right");
                 if e.key == pygame.K_DOWN and not game.check_collide(dy=1):
                     game.cur.y +=1
+                    print("Moved down");
                 if e.key == pygame.K_UP:
+                    print("Rotated");
                     old = game.cur.shape
                     game.rotate()
                     if game.check_collide():
