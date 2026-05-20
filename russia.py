@@ -13,7 +13,6 @@ BLOCK_SIZE = 30
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("俄罗斯方块")
 clock = pygame.time.Clock()
-# FPS = 60
 FPS = 100
 
 # 颜色
